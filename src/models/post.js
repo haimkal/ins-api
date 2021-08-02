@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 const Post = mongoose.model('Post', {
     user: { // why doesn't it work?
         type: Schema.Types.ObjectId,
-        required: true,
+        // required: true,
         ref: 'User'
     },
     whoHasItNow: { 
         type: Schema.Types.ObjectId,
-        required: true,
+        // required: true,
         ref: 'User'
     },
-    content: {
+    description: {
         type: String,
     },
     image: {
@@ -20,8 +20,7 @@ const Post = mongoose.model('Post', {
         required: true
     },
     size: {
-        type: String,
-        required: true
+        type: String
     },
     createdAt: {
         type: Date,
