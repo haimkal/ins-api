@@ -29,6 +29,7 @@ class PostsController {
         
         try {
             const fileContent = await fs.readFile('/public/posts/' + fileName);
+            
             const params = {
                 Bucket : 'nechavot-style',
                 Key: `${keys.folderPosts}/${fileName}`,
