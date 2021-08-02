@@ -28,11 +28,10 @@ class PostsController {
         const fileName = req.file.filename;
         
         try {
-            const fileContent = await fs.readFile('/public/posts/' + fileName);
-            
+            const fileContent = await fs.readFile('/public/posts/' + fileName );
             const params = {
                 Bucket : 'nechavot-style',
-                Key: `${keys.folderPosts}/${fileName}`,
+                Key: `${keys.folderPosts}/${fileName}` + '.jpg',
                 Body: fileContent
               };
               console.log("create", fileName);
@@ -44,6 +43,8 @@ class PostsController {
                 });
                 const newPost = post.save();
                 res.status(201).send(newPost);
+                console.log(post.description);
+                
             });
 
             
