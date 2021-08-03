@@ -4,13 +4,14 @@ const Schema = mongoose.Schema;
 const Post = mongoose.model('Post', {
     user: { // why doesn't it work?
         type: Schema.Types.ObjectId,
-        // required: true,
+        required: true,
         ref: 'User'
     },
-    whoHasItNow: { 
-        type: Schema.Types.ObjectId,
+    whereItIsNow: {
+        type: String,
+        // type: Schema.Types.ObjectId,
         // required: true,
-        ref: 'User'
+        // ref: 'User'
     },
     description: {
         type: String,

@@ -12,7 +12,7 @@ routes.post('/user/me', auth, UsersController.me);
 routes.get('/user/check', UsersController.check);
 
 routes.get('/post', auth, PostsController.feed);
-routes.put('/post', upload.single('image'), PostsController.create);
+routes.put('/post', auth, upload.single('image'), PostsController.create);
 
 
 routes.put('/user', UsersController.create);
