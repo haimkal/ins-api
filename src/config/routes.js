@@ -8,18 +8,18 @@ const upload = multer ({
     dest: '/public/posts',
     // limits: { fileSize: 1000000 }
 });
-
+//user
 routes.put('/user', UsersController.create);
 routes.post('/user/login', UsersController.login);
 routes.post('/user/me', auth, UsersController.me);
 routes.get('/user/check', UsersController.check);
 
+//post
 routes.get('/post', auth, PostsController.feed);
 routes.put('/post', auth, upload.single('image'), PostsController.create);
+routes.get('/post/:id', auth, PostsController.get);
 
 
 routes.put('/user', UsersController.create);
 
-//images
-// routes.put('/image/upload', ImagesController.upload);
 module.exports = routes;

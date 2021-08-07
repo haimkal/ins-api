@@ -19,14 +19,16 @@ async function resizeImage(imageBuffer, maxDimensionHeight, maxDimensionWidth) {
         fit: 'contain', //'fill' 
         background: { r: 255, g: 255, b: 255, alpha: 1 } 
      })
-        .jpeg ({quality: 100})
+        .jpeg ({quality: 90})
         .toBuffer();
 }
 class PostsController {
 
     static async feed(req, res) {
         try{
-            const posts = await Post.find();
+            const posts = await Post
+                .find()
+                .populate('user', ['username', 'avatar'])
             res.send(posts);
             } catch (err) {
               console.log(err)
@@ -77,6 +79,24 @@ class PostsController {
             fs.rm('/public/posts/' + fileName)
         }
     }
+
+    static async get(req, res) {
+        try {
+            const post = await Post
+                .findById(req.params.id)
+                .populate('user', ['username', 'avatar']);
+            if(!post) {
+                res.sendStatus(404);
+                return;
+            }
+            res.send(post);
+        } catch (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+
+    }
+
     
     
     
