@@ -29,6 +29,7 @@ class PostsController {
             const posts = await Post
                 .find()
                 .populate('user', ['username', 'avatar'])
+                .sort({ createdAt: req.query.sort || 1 });
             res.send(posts);
             } catch (err) {
               console.log(err)
@@ -45,8 +46,8 @@ class PostsController {
 
             const fileContent = await fs.readFile('/public/posts/' + fileName );
             console.log(`Resizing ${fileName}`);
-            const MAX_DIMENSION_HEIGHT = 455;
-            const MAX_DIMENSION_WIDTH = 334;
+            const MAX_DIMENSION_HEIGHT = 1180;
+            const MAX_DIMENSION_WIDTH = 856;
             let resized = await resizeImage(fileContent, MAX_DIMENSION_HEIGHT, MAX_DIMENSION_WIDTH) ;
             console.log(`resize test---- original: ${fileContent.length} bytes, resized: ${resized.length} bytes.`);
 

@@ -1,7 +1,7 @@
 
 const keys = {
     bucketName: 'nechavot-style',
-    folderAvatars: 'avatar',
+    folderAvatars: 'avatars',
     folderPosts: 'posts'
 }
 
