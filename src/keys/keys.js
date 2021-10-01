@@ -5,4 +5,6 @@ const keys = {
     folderPosts: 'posts'
 }
 
+
+
 module.exports = keys;

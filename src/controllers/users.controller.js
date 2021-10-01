@@ -1,9 +1,21 @@
+const AWS = require('aws-sdk');
 const md5 = require ('md5');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Post = require('../models/post');
 const fs = require ('fs').promises;
+const keys = require ('../keys/keys.js');
 const { jwtSecret } = require('../config/environment/index');
+const  resizeImage = require ('../helpers/resizer');
+const s3Uploader = require ('../helpers/s3ImageUpload')
+
+
+
+const s3 = new AWS.S3({
+    bucketName: keys.bucketName,
+    signatureVersion: "v4",
+    region: "eu-west-1" 
+});
 
 class UsersController {
 
@@ -72,20 +84,55 @@ class UsersController {
     
     
     static async editUser(req, res) {
-        const { id } = req.params;
-        const toUpdate = {}
-        // if (req.file) {
-        //     const fileName= req.file.filename;
-        //     const imageBase64 = await fs.readFile('public/avatars' + fileName, {
-        //         encoding: 'base64'
-        //     });
-        //     toUpdate.avatar = imageBase64;
-        // }
-        toUpdate.username = req.body.username;
-        toUpdate.email = req.body.email;
-        const newUser = await User.findByIdAndUpdate(id, toUpdate, {new: true})
-        console.log(newUser);
-        res.send(newUser)
+        const fileName = req.file.filename;
+
+       
+            try {
+    
+                const fileContent = await fs.readFile('/public/avatars/' + fileName );
+                console.log(`========Resizing ${fileName}============`);
+                const MAX_DIMENSION_HEIGHT = 1180;
+                const MAX_DIMENSION_WIDTH = 856;
+                let resized = await resizeImage(fileContent, MAX_DIMENSION_HEIGHT, MAX_DIMENSION_WIDTH) ;
+                console.log(`resize test---- original: ${fileContent.length} bytes, resized: ${resized.length} bytes.`);
+                const key = `${keys.folderAvatars}/${fileName}` + '.jpg';
+                console.log("create", fileName);
+                s3Uploader(key, resized, async (filePath) => {
+
+                    const { id } = req.params;
+                    const toUpdate = {}
+                
+                    if (req.body.username){
+                        toUpdate.username = req.body.username;
+                    }
+                   
+                    if (req.body.email){
+                        toUpdate.email = req.body.email;
+                    }
+                    toUpdate.avatar = filePath
+                    const newUser = await User.findByIdAndUpdate(id, toUpdate, {new: true})
+                    res.status(201).send(newUser);
+                    console.log(newUser);
+                    
+                  })
+   
+                
+            } catch(err) {
+                console.log(err);
+                res.sendStatus(400);
+            } finally {
+                fs.rm('/public/avatars/' + fileName)
+            }
+        
+
+        // const { id } = req.params;
+        // const toUpdate = {}
+      
+        // toUpdate.username = req.body.username;
+        // toUpdate.email = req.body.email;
+        // const newUser = await User.findByIdAndUpdate(id, toUpdate, {new: true})
+        // console.log(newUser);
+        // res.send(newUser)
     }
 
     static async posts (req, res) {
@@ -110,35 +157,7 @@ class UsersController {
         }              
     }
 
-        //     try {
-        //         const fileContent = await fs.readFile('/public/avatars/' + fileName );
-        //         const params = {
-        //             Bucket : 'nechavot-style',
-        //             Key: `${keys.folderPosts}/${fileName}` + '.jpg',
-        //             Body: fileContent,
-        //             ACL: 'public-read'
-        //         };
-        //         console.log("create", fileName);
-        //         const uploadedFile = await s3.upload(params, (err, data) => {
-        //            console.log('Img uploaded successfully')
-        //         }).promises();
-        //         let location = uploadedFile.location;
-        //     }
-        //     toUpdate = {
-        //         avatar: location,
-        //         password:
-
-        //     }
-                
-        //     } catch(err) {
-        //         console.log(err);
-        //         res.sendStatus(400);
-        //     } finally {
-        //         fs.rm('/public/posts/' + fileName)
-        //     }
-            
-        // }
-
+       
         static async get (req, res) {
             const { username } = req.params;
         try {
