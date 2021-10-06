@@ -6,9 +6,9 @@ module.exports = async function resizeImage(imageBuffer, maxDimensionHeight, max
     return sharpImg.resize({ 
         width: maxDimensionWidth,
         height: maxDimensionHeight, 
-        fit: 'contain', //'fill' resi
-        // background: { r: 255, g: 255, bresi: 255, alpha: 1 } 
+        fit: 'cover', 
+        background: { r: 255, g: 255, b: 255, alpha: 0.5 } 
      })
-        .jpeg ({quality: 90})
+        .jpeg ({quality: 80})
         .toBuffer();
 }

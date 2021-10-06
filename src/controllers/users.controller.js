@@ -86,13 +86,11 @@ class UsersController {
     static async editUser(req, res) {
         const fileName = req.file.filename;
 
-       
             try {
-    
                 const fileContent = await fs.readFile('/public/avatars/' + fileName );
                 console.log(`========Resizing ${fileName}============`);
-                const MAX_DIMENSION_HEIGHT = 1180;
-                const MAX_DIMENSION_WIDTH = 856;
+                const MAX_DIMENSION_HEIGHT = 200;
+                const MAX_DIMENSION_WIDTH = 200;
                 let resized = await resizeImage(fileContent, MAX_DIMENSION_HEIGHT, MAX_DIMENSION_WIDTH) ;
                 console.log(`resize test---- original: ${fileContent.length} bytes, resized: ${resized.length} bytes.`);
                 const key = `${keys.folderAvatars}/${fileName}` + '.jpg';

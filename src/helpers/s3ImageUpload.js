@@ -1,5 +1,7 @@
 const s3 = require('./s3');
-
+/** 
+ * TODO - turn into promise.
+*/
 module.exports = async function s3Uploader(key, image, onSuccess) {
     const params = {
         Bucket : 'nechavot-style',
