@@ -78,8 +78,9 @@ class UsersController {
     }
 
     static async me(req, res) {
-        res.send(req.user);
-        }
+        const user = await User.findById(req.user._id);
+        res.send(user);
+    }
 
     
     
