@@ -21,6 +21,7 @@ class UsersController {
 
     static async create(req, res) {
         try {
+            // userService.createUser(req.body)- work on seperating app logic from http logic
             req.body.password = md5(req.body.password);
             const user = await new User(req.body);
             const newUser = await user.save();
@@ -153,10 +154,9 @@ class UsersController {
         }catch (err) {
             console.log(err);
             res.sendStatus(500);
-        }              
+        }
     }
 
-       
         static async get (req, res) {
             const { username } = req.params;
         try {
@@ -175,15 +175,28 @@ class UsersController {
         }              
     }
 
- 
+    static async getAllUsers (req, res) {
+        
+        try {
+            const users = await User.find({
+
+            })
+            // const { username } = req.params;
+            console.log(users);
+            return res.json(users.map(user => (
+                {
+                    username: user.username
+                }
+            )));
+            
+
+        } catch (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
 
         
-
-      
-
-                
-
-    
+    }
 }
 
 module.exports = UsersController;

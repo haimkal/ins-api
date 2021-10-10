@@ -19,6 +19,7 @@ routes.get('/user/edit/check', UsersController.check);
 routes.get('/user/:username/posts', auth, UsersController.posts);
 routes.post('/user/edit/:id', avatar.single('image'), UsersController.editUser);
 routes.get ('/user/:username', auth, UsersController.get);
+routes.get ('/users', UsersController.getAllUsers);
 
 //post
 routes.get('/post', auth, PostsController.feed);
