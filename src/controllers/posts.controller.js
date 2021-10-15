@@ -4,6 +4,7 @@ const Post = require ('../models/post');
 const keys = require ('../keys/keys.js');
 const s3Uploader = require ('../helpers/s3ImageUpload');
 const resizeImage = require ('../helpers/resizer')
+const User = require('../models/user');
 
 
 const s3 = new AWS.S3({
@@ -80,7 +81,21 @@ class PostsController {
             console.log(err);
             res.sendStatus(500);
         }
+    }
 
+    static async takenByMe(req, res) {
+        const { id } = req.params;
+        const { username } = req.params;
+        const postToUpdate = {}
+
+        postToUpdate.whereItIsNow = username;
+        
+        const newPost = await Post
+            .findByIdAndUpdate(id, postToUpdate, {new: true})
+            .populate('user', ['username']);
+
+       
+        res.status(201).send(newPost)
     }
 
     

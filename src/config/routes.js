@@ -25,6 +25,7 @@ routes.get ('/users', UsersController.getAllUsers);
 routes.get('/post', auth, PostsController.feed);
 routes.put('/post', auth, upload.single('image'), PostsController.create);
 routes.get('/post/:id', auth, PostsController.get);
+routes.get('/post/taken/:id/:username', auth, PostsController.takenByMe);
 
 
 routes.put('/user', UsersController.create);
