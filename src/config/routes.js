@@ -10,6 +10,7 @@ const upload = multer ({
 const avatar = multer({
     dest: '/public/avatars', limits: {fieldSize: 25 * 1024 * 1024} 
 });
+
 //user
 routes.put('/user', UsersController.create);
 routes.post('/user/login', UsersController.login);
@@ -19,7 +20,7 @@ routes.get('/user/edit/check', UsersController.check);
 routes.get('/user/:username/posts', auth, UsersController.posts);
 routes.post('/user/edit/:id', avatar.single('image'), UsersController.editUser);
 routes.get ('/user/:username', auth, UsersController.get);
-routes.get ('/users', UsersController.getAllUsers);
+routes.get ('/users', auth, UsersController.getAllUsers);
 
 //post
 routes.get('/post', auth, PostsController.feed);
@@ -28,6 +29,7 @@ routes.get('/post/:id', auth, PostsController.get);
 routes.get('/post/taken/:id/:username', auth, PostsController.takenByMe);
 
 
-routes.put('/user', UsersController.create);
+// routes.put('/user', UsersController.create);
+routes.get('/', (req, res) => res.send());
 
 module.exports = routes;
