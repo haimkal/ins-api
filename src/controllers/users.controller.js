@@ -109,6 +109,7 @@ class UsersController {
                     if (req.body.email){
                         toUpdate.email = req.body.email;
                     }
+                    
                     toUpdate.avatar = filePath
                     const newUser = await User.findByIdAndUpdate(id, toUpdate, {new: true})
                     res.status(201).send(newUser);
