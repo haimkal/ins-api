@@ -1,14 +1,14 @@
-const express = require ('express');
+const express = require('express');
 const multer = require('multer');
 const UsersController = require('../controllers/users.controller');
-const PostsController = require ('../controllers/posts.controller');
-const auth = require ('../middlewares/auth');
+const PostsController = require('../controllers/posts.controller');
+const auth = require('../middlewares/auth');
 const routes = express.Router();
-const upload = multer ({
+const upload = multer({
     dest: '/public/posts',
 });
 const avatar = multer({
-    dest: '/public/avatars', limits: {fieldSize: 25 * 1024 * 1024} 
+    dest: '/public/avatars', limits: { fieldSize: 25 * 1024 * 1024 }
 });
 
 //user
@@ -18,9 +18,9 @@ routes.post('/user/me', auth, UsersController.me);
 routes.get('/user/check', UsersController.check);
 routes.get('/user/edit/check', UsersController.check);
 routes.get('/user/:username/posts', auth, UsersController.posts);
-routes.post('/user/edit/:id', avatar.single('image'), UsersController.editUser);
-routes.get ('/user/:username', auth, UsersController.get);
-routes.get ('/users', auth, UsersController.getAllUsers);
+routes.post('/user/edit/:id', auth, avatar.single('image'), UsersController.editUser);
+routes.get('/user/:username', auth, UsersController.get);
+routes.get('/users', auth, UsersController.getAllUsers);
 
 //post
 routes.get('/post', auth, PostsController.feed);
