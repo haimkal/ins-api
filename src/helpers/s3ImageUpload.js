@@ -10,8 +10,6 @@ module.exports = async function s3Uploader(key, image, onSuccess) {
     ACL: 'public-read'
   };
   const uploadedFile = await s3.upload(params, (err, data) => {
-    console.log("lihay6");
-
     if (err) {
       console.log(err)
       return

@@ -29,7 +29,7 @@ routes.get('/post/:id', auth, PostsController.get);
 routes.get('/post/taken/:id/:username', auth, PostsController.takenByMe);
 
 
-// routes.put('/user', UsersController.create);
+// report if app in on Heroku
 routes.get('/', (req, res) => res.send());
 
 module.exports = routes;

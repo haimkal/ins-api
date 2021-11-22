@@ -40,14 +40,9 @@ class PostsController {
             const MAX_DIMENSION_WIDTH = 856;
             let resized = await resizeImage(fileContent, MAX_DIMENSION_HEIGHT, MAX_DIMENSION_WIDTH);
             console.log(`resize test---- original: ${fileContent.length} bytes, resized: ${resized.length} bytes.`);
-            console.log("lihay 1");
 
             console.log("create", fileName);
-            console.log("lihay 2");
-
             const key = `${keys.folderPosts}/${fileName}` + '.jpg';
-            console.log("lihay 3");
-
             s3Uploader(key, resized, (filePath) => {
                 const post = new Post({
                     description: req.body.description,
@@ -56,11 +51,7 @@ class PostsController {
                     user: req.user._id,
                     whereItIsNow: req.body.whereItIsNow
                 })
-                console.log("lihay4");
-
                 const newPost = post.save();
-                console.log("lihay5");
-
                 res.status(201).send(newPost);
                 console.log(post.description);
             })
