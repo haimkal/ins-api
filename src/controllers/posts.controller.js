@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-const path = require('path');
 const fs = require('fs').promises; //file system- for reading and writing files to the system (for base 64)
 const Post = require('../models/post');
 const keys = require('../keys/keys.js');
@@ -35,7 +34,7 @@ class PostsController {
         const fileName = req.file.filename;
 
         try {
-            const fileContent = await fs.readFile(path.join(__dirname, 'public', 'posts', fileName));
+            const fileContent = await fs.readFile('/public/posts/' + fileName);
             console.log(`Resizing ${fileName}`);
             const MAX_DIMENSION_HEIGHT = 1180;
             const MAX_DIMENSION_WIDTH = 856;
@@ -61,7 +60,7 @@ class PostsController {
             console.log(err);
             res.sendStatus(400);
         } finally {
-            fs.rm(path.join(__dirname, 'public', 'posts', fileName))
+            fs.rm('/public/posts/' + fileName)
         }
     }
 
