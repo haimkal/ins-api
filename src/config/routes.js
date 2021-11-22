@@ -1,14 +1,15 @@
 const express = require('express');
 const multer = require('multer');
+const path = require('path');
 const UsersController = require('../controllers/users.controller');
 const PostsController = require('../controllers/posts.controller');
 const auth = require('../middlewares/auth');
 const routes = express.Router();
 const upload = multer({
-    dest: './public/posts',
+    dest: path.join(__dirname, 'public', 'posts'),
 });
 const avatar = multer({
-    dest: './public/avatars', limits: { fieldSize: 25 * 1024 * 1024 }
+    dest: path.join(__dirname, 'public', 'avatars'), limits: { fieldSize: 25 * 1024 * 1024 }
 });
 
 //user

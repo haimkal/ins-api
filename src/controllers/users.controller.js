@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const md5 = require('md5');
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Post = require('../models/post');
@@ -89,7 +90,7 @@ class UsersController {
         const fileName = req.file.filename;
 
         try {
-            const fileContent = await fs.readFile('./public/avatars/' + fileName);
+            const fileContent = await fs.readFile(path.join(__dirname, 'public', 'avatars', fileName));
             console.log(`========Resizing ${fileName}============`);
             const MAX_DIMENSION_HEIGHT = 200;
             const MAX_DIMENSION_WIDTH = 200;
@@ -122,7 +123,7 @@ class UsersController {
             console.log(err);
             res.sendStatus(400);
         } finally {
-            fs.rm('./public/avatars/' + fileName)
+            fs.rm(path.join(__dirname, 'public', 'avatars', fileName))
         }
 
 
