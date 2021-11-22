@@ -89,7 +89,7 @@ class UsersController {
         const fileName = req.file.filename;
 
         try {
-            const fileContent = await fs.readFile('/public/avatars/' + fileName);
+            const fileContent = await fs.readFile('./public/avatars/' + fileName);
             console.log(`========Resizing ${fileName}============`);
             const MAX_DIMENSION_HEIGHT = 200;
             const MAX_DIMENSION_WIDTH = 200;
@@ -122,7 +122,7 @@ class UsersController {
             console.log(err);
             res.sendStatus(400);
         } finally {
-            fs.rm('/public/avatars/' + fileName)
+            fs.rm('./public/avatars/' + fileName)
         }
 
 
