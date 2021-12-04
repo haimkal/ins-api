@@ -5,10 +5,10 @@ const PostsController = require('../controllers/posts.controller');
 const auth = require('../middlewares/auth');
 const routes = express.Router();
 const upload = multer({
-    dest: '/public/posts',
+    dest: './public/posts',
 });
 const avatar = multer({
-    dest: '/public/avatars', limits: { fieldSize: 25 * 1024 * 1024 }
+    dest: './public/avatars', limits: { fieldSize: 25 * 1024 * 1024 }
 });
 
 //user
