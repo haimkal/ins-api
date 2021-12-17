@@ -95,7 +95,20 @@ class PostsController {
         res.status(201).send(newPost)
     }
 
-
+    static async deletePost(req, res) {
+        const { id } = req.params;
+        console.log(id);
+        const userId = req.user._id;
+        try {
+            const postToRemove = await Post.findByIdAndRemove(id);
+            if (postToRemove) {
+                res.status(200).send(postToRemove)
+            }
+        } catch (err) {
+            console.log(err);
+            res.sendStatus(400)
+        }
+    }
 
 
 

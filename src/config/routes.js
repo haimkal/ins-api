@@ -25,6 +25,7 @@ routes.get('/users', auth, UsersController.getAllUsers);
 //post
 routes.get('/post', auth, PostsController.feed);
 routes.put('/post', auth, upload.single('image'), PostsController.create);
+routes.delete('/post/:id/delete-post', auth, PostsController.deletePost)
 routes.get('/post/:id', auth, PostsController.get);
 routes.get('/post/taken/:id/:username', auth, PostsController.takenByMe);
 
