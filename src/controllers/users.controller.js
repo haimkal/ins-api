@@ -183,10 +183,11 @@ class UsersController {
 
             })
             // const { username } = req.params;
-            console.log(users);
+            console.log('users: ', users);
             return res.json(users.map(user => (
                 {
-                    username: user.username
+                    username: user.username,
+                    avatar: user.avatar
                 }
             )));
 
